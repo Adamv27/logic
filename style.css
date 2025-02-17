@@ -1,0 +1,9 @@
+body {
+  background-color: #555555;
+  display: flex;
+  justify-content: center;
+}
+
+#menu {
+  display: flex;
+}
