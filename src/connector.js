@@ -17,13 +17,12 @@ export default class Connector extends Draggable {
   }
 
   handleEvent(event, x, y) {
-    if (!this.containsPoint(x, y) && event.type == 'mousedown') return;
-
-    super.handleEvent(event, x, y);
-
-    if (event.type == 'mouseup') {
+    if (event.type == 'mouseup' && this.isDragging) {
+      console.log("Removing wire");
       this.wire = new Wire(this.x, this.y, this.x, this.y);
     }
+
+    super.handleEvent(event, x, y);
   }
 
   dragTo(x, y) {

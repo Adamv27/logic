@@ -23,11 +23,9 @@ export default class Toggle extends Draggable {
 
   handleEvent(event, x, y) {
     this.connector.handleEvent(event, x, y);
-    
-    if (!this.containsPoint(x, y)) return;
-
     super.handleEvent(event, x, y);
 
+    if (!this.containsPoint(x, y)) return;
     if (event.type == 'click') {
       if (this.respondToClick) {
         this.value = !this.value;

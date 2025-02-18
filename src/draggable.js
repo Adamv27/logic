@@ -9,9 +9,14 @@ export default class Draggable {
     this.clickOffsetY = 0;
   }
 
+  containsPoint(x, y) {
+    return false;
+  }
+
   handleEvent(event, x, y) {
     switch (event.type) {
       case 'mousedown':
+        if (!this.containsPoint(x, y)) return;
         this.isDragging = true;
         this.clickOffsetX = this.x - x; 
         this.clickOffsetY = this.y - y;
