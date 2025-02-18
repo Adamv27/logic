@@ -2,9 +2,10 @@ import Wire from "./wire.js";
 import Draggable from "./draggable.js";
 
 export default class Connector extends Draggable {
+  static RADIUS = 8;
+
   constructor(x, y) {
     super(x, y);
-    this.radius = 8;
 
     this.wire = new Wire(this.x, this.y, this.x, this.y);
   }
@@ -13,16 +14,16 @@ export default class Connector extends Draggable {
     const dx = x - this.x;
     const dy = y - this.y;
     const distance = Math.sqrt((dx ** 2) + (dy ** 2));
-    return distance <= this.radius;
+    return distance <= Connector.RADIUS;
   }
 
   handleEvent(event, x, y) {
     if (event.type == 'mouseup' && this.isDragging) {
-      console.log("Removing wire");
       this.wire = new Wire(this.x, this.y, this.x, this.y);
     }
 
     super.handleEvent(event, x, y);
+    return this.isDragging;
   }
 
   dragTo(x, y) {
@@ -34,8 +35,9 @@ export default class Connector extends Draggable {
     const color = '#000';
     ctx.lineWidth = 2;
     ctx.strokeStyle = color;
+    ctx.fillStyle = color;
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+    ctx.arc(this.x, this.y, Connector.RADIUS, 0, 2 * Math.PI);
     ctx.fill();
   }
 }

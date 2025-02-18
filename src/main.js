@@ -1,17 +1,25 @@
+import AndGate from "./andGate.js";
 import Toggle from "./toggle.js";
 import { eventPosToCanvas } from "./util.js";
 
 class Engine {
   constructor() {
+    console.log(window.innerWidth);
+    console.log(window.innerHeight);
     this.canvas = document.getElementById("logic-canvas")
-    this.canvas.width = 1600;
-    this.canvas.height = 900;
+    this.canvas.width = window.innerWidth - 20;
+    this.canvas.height = window.innerHeight - 100;
     this.ctx = this.canvas.getContext("2d");
 
     this.objects = [];
 
     const toggle = new Toggle();
     this.objects.push(toggle);
+    
+    const and = new AndGate();
+    this.objects.push(and);
+
+
     this.draw();
   }
 
@@ -24,7 +32,7 @@ class Engine {
   }
       
   draw() {
-    this.ctx.fillStyle = "#363636";
+    this.ctx.fillStyle = "#505050";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.objects.forEach(object => object.draw(this.ctx));
   }
