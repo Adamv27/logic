@@ -1,3 +1,7 @@
+import Draggable from "./draggable";
 
-class Gate {
+export default class Gate extends Draggable {
+  constructor() {
+
+  }
 }

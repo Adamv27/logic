@@ -1,17 +1,12 @@
 import Connector from "./connector.js";
+import Draggable from "./draggable.js";
 
-export default class Toggle {
+export default class Toggle extends Draggable {
   constructor() {
+    super(25, 100);
     this.value = 0;
-    this.x = 25;
-    this.y = 100;
     this.radius = 20;
-
-    this.isDragging = false;
-    this.respondToClick = true;
-    this.clickOffsetX = 0;
-    this.clickOffsetY = 0;
-
+ 
     this.connector = new Connector(this.x + this.radius + 15, this.y);
   }
 
@@ -23,48 +18,28 @@ export default class Toggle {
     const dx = x - this.x;
     const dy = y - this.y;
     const distance = Math.sqrt((dx ** 2) + (dy ** 2));
-    return distance <= this.radius || this.connector.containsPoint(x, y);
+    return distance <= this.radius;
   }
 
   handleEvent(event, x, y) {
-    if (this.connector.isDragging || this.connector.containsPoint(x, y)) {
-      this.connector.handleEvent(event, x, y);
-      return;
-    } 
-
-
-    if (this.isDragging && event.type == 'mousemove') {
-      this.dragTo(x, y);
-    }
-
+    this.connector.handleEvent(event, x, y);
+    
     if (!this.containsPoint(x, y)) return;
 
-    switch (event.type) {
-      case 'click':
-        if (this.respondToClick) {
-          this.value = !this.value;
-        }
-        this.respondToClick = true;
-        break;
-      case 'mousedown':
-        this.isDragging = true;
-        this.clickOffsetX = this.x - x; 
-        this.clickOffsetY = this.y - y;
-        break;
-      case 'mouseup':
-        this.isDragging = false;
-        break;
+    super.handleEvent(event, x, y);
+
+    if (event.type == 'click') {
+      if (this.respondToClick) {
+        this.value = !this.value;
+      }
+      this.respondToClick = true;
     }
   }
   
   dragTo(x, y) {
-    this.respondToClick = false;
-    this.x = x + this.clickOffsetX;
-    this.y = y + this.clickOffsetY;
-
+    super.dragTo(x, y);
     this.connector.x = this.x + this.radius + 15; 
     this.connector.y = this.y;
-
   }
 
 

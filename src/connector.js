@@ -1,11 +1,10 @@
 import Wire from "./wire.js";
+import Draggable from "./draggable.js";
 
-export default class Connector {
+export default class Connector extends Draggable {
   constructor(x, y) {
-    this.x = x;
-    this.y = y;
+    super(x, y);
     this.radius = 8;
-    this.isDragging = false;
 
     this.wire = new Wire(this.x, this.y, this.x, this.y);
   }
@@ -18,19 +17,12 @@ export default class Connector {
   }
 
   handleEvent(event, x, y) {
-    switch (event.type) {
-      case 'mousedown':
-        this.isDragging = true;
-        break;
-      case 'mouseup':
-        this.isDragging = false;
-        this.wire = new Wire(this.x, this.y, this.x, this.y);
-        break;
-      case 'mousemove':
-        if (this.isDragging) {
-          this.dragTo(x, y);
-        }
-        break;
+    if (!this.containsPoint(x, y) && event.type == 'mousedown') return;
+
+    super.handleEvent(event, x, y);
+
+    if (event.type == 'mouseup') {
+      this.wire = new Wire(this.x, this.y, this.x, this.y);
     }
   }
 
@@ -38,12 +30,11 @@ export default class Connector {
     this.wire = new Wire(this.x, this.y, x, y);
   }
 
-
   draw(ctx) {
     this.wire.draw(ctx);
     const color = '#000';
+    ctx.lineWidth = 2;
     ctx.strokeStyle = color;
-    ctx.fillStyle = color;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
     ctx.fill();
