@@ -2,8 +2,8 @@ import Connector from "./connector.js";
 import Draggable from "./draggable.js";
 
 export default class Toggle extends Draggable {
-  constructor() {
-    super(25, 100);
+  constructor(x, y) {
+    super(x, y);
     this.value = false;
     this.radius = 20;
  

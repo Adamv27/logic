@@ -1,4 +1,5 @@
 import AndGate from "./andGate.js";
+import OrGate from "./orGate.js";
 import Output from "./output.js";
 import Toggle from "./toggle.js";
 import { eventPosToCanvas } from "./util.js";
@@ -12,11 +13,16 @@ class Engine {
 
     this.objects = [];
 
-    const toggle = new Toggle();
+    let toggle = new Toggle(25, 75);
+    this.objects.push(toggle);
+    toggle = new Toggle(25, 150);
     this.objects.push(toggle);
     
     const and = new AndGate();
     this.objects.push(and);
+
+    const or = new OrGate();
+    this.objects.push(or);
     
     const output = new Output();
     this.objects.push(output);
@@ -47,7 +53,7 @@ engine.canvas.addEventListener("mousemove", e=>engine.handleEvent(e));
 engine.canvas.addEventListener("click", e=>engine.handleEvent(e));
 
 document.getElementById("create-input").addEventListener("click", e=> {
-  const toggle = new Toggle();
+  const toggle = new Toggle(25, 10);
   engine.objects.push(toggle);
   engine.draw();
 })
