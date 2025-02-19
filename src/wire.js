@@ -4,13 +4,15 @@ export default class Wire {
     this.startY = startY;
     this.endX = endX;
     this.endY = endY;
-
+    
     this.arcRadius = 5;
   }
 
   draw(ctx, value) {
     if (this.startX == this.endX && this.startY == this.endY) return;
     const color = value ? "#ff6961" : "#35181A";
+    
+    this.arcRadius = Math.abs(this.startY - this.endY) < 5 ? 0 : 5;
 
     ctx.lineWidth = 2;
     ctx.strokeStyle = color;
