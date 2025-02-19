@@ -8,11 +8,12 @@ export default class Wire {
     this.arcRadius = 5;
   }
 
-  draw(ctx) {
+  draw(ctx, value) {
     if (this.startX == this.endX && this.startY == this.endY) return;
-    
+    const color = value ? "#ff6961" : "#35181A";
+
     ctx.lineWidth = 2;
-    ctx.strokeStyle = "#35181A";
+    ctx.strokeStyle = color;
 
     ctx.beginPath();
     ctx.moveTo(this.startX, this.startY);

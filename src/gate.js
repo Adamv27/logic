@@ -30,6 +30,10 @@ export default class Gate extends Draggable {
     this.outputs = [];
   }
 
+  propagateSignal() {
+    
+  }
+
   calculateConnectorSpacing() {
     let offsetY = this.spacingPerConnector + Connector.RADIUS;   
     this.inputs.forEach(input => {
@@ -56,12 +60,29 @@ export default class Gate extends Draggable {
       }
     });
 
-
     if (allowDraggingCircuit) {
       super.handleEvent(event, x, y);
     }
   }
 
+  getConnectorOnPoint(x, y) {
+    let targetedConnector;
+
+    this.inputs.forEach(input => {
+      if (input.containsPoint(x, y)) {
+        targetedConnector = input;
+      }
+    });
+
+    this.outputs.forEach(output => {
+      if (output.containsPoint(x, y)) {
+        targetedConnector = input; 
+      }
+    });
+
+    return targetedConnector;
+  }
+  
   containsPoint(x, y) {
     return x >= this.x && x <= this.x + this.width
       && y >= this.y && y <= this.y + this.height;
@@ -73,5 +94,12 @@ export default class Gate extends Draggable {
 
     this.inputs.forEach(input => input.draw(ctx));
     this.outputs.forEach(output => output.draw(ctx));
+
+    ctx.color = '#000';
+    ctx.font = "16px serif"
+    
+    const textX = this.x + (this.width / 2) - 16;
+
+    ctx.fillText(this.name, textX, this.y + this.height / 2 + 4);
   }
 }

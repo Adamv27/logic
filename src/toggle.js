@@ -4,14 +4,10 @@ import Draggable from "./draggable.js";
 export default class Toggle extends Draggable {
   constructor() {
     super(25, 100);
-    this.value = 0;
+    this.value = false;
     this.radius = 20;
  
     this.connector = new Connector(this.x + this.radius + 15, this.y);
-  }
-
-  output() {
-    return this.value;
   }
 
   containsPoint(x, y) {
@@ -19,6 +15,12 @@ export default class Toggle extends Draggable {
     const dy = y - this.y;
     const distance = Math.sqrt((dx ** 2) + (dy ** 2));
     return distance <= this.radius;
+  }
+
+  getConnectorOnPoint(x, y) {
+    if (this.connector.containsPoint(x, y)) {
+      return this.connector;
+    }
   }
 
   handleEvent(event, x, y) {
@@ -29,6 +31,7 @@ export default class Toggle extends Draggable {
     if (event.type == 'click') {
       if (this.respondToClick) {
         this.value = !this.value;
+        this.connector.propagateSignal(this.value);
       }
       this.respondToClick = true;
     }
@@ -50,7 +53,7 @@ export default class Toggle extends Draggable {
 
     this.connector.draw(ctx);
 
-    const color = this.value == 0 ? "#35181A" : "#ff6961";
+    const color = this.value ? "#ff6961" : "#35181A";
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);

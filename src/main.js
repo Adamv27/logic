@@ -4,10 +4,8 @@ import { eventPosToCanvas } from "./util.js";
 
 class Engine {
   constructor() {
-    console.log(window.innerWidth);
-    console.log(window.innerHeight);
     this.canvas = document.getElementById("logic-canvas")
-    this.canvas.width = window.innerWidth - 20;
+    this.canvas.width = Math.min(window.innerWidth - 40, 1600);
     this.canvas.height = window.innerHeight - 100;
     this.ctx = this.canvas.getContext("2d");
 
@@ -50,3 +48,5 @@ document.getElementById("create-input").addEventListener("click", e=> {
   engine.objects.push(toggle);
   engine.draw();
 })
+
+export default engine;
