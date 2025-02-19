@@ -1,8 +1,8 @@
 import Gate from "./gate.js";
 
 export default class AndGate extends Gate {
-  constructor() {
-    super(200, 75, 75, 2, 1);
+  constructor(x, y) {
+    super(x, y, 75, 2, 1);
     this.color = "#B2FBA5";
     this.name = "AND";
   }

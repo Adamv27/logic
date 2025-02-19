@@ -1,8 +1,8 @@
 import Gate from "./gate.js";
 
 export default class XorGate extends Gate {
-  constructor() {
-    super(200, 350, 75, 2, 1);
+  constructor(x, y) {
+    super(x, y, 75, 2, 1);
     this.color = "#B49FDC";
     this.name = "XOR";
   }

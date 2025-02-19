@@ -20,16 +20,16 @@ class Engine {
     toggle = new Toggle(25, 150);
     this.objects.push(toggle);
     
-    const and = new AndGate();
+    const and = new AndGate(200, 75);
     this.objects.push(and);
 
-    const or = new OrGate();
+    const or = new OrGate(200, 175);
     this.objects.push(or);
 
-    const not = new NotGate(); 
+    const not = new NotGate(200, 275); 
     this.objects.push(not);
 
-    const xor = new XorGate();
+    const xor = new XorGate(200, 350);
     this.objects.push(xor);
     
     const output = new Output();
@@ -61,10 +61,36 @@ engine.canvas.addEventListener("mouseup", e=>engine.handleEvent(e));
 engine.canvas.addEventListener("mousemove", e=>engine.handleEvent(e));
 engine.canvas.addEventListener("click", e=>engine.handleEvent(e));
 
-document.getElementById("create-input").addEventListener("click", e=> {
+document.getElementById("create-input").addEventListener("click", () => {
   const toggle = new Toggle(25, 10);
   engine.objects.push(toggle);
   engine.draw();
 })
+
+document.getElementById("create-and").addEventListener("click", () => {
+  const andGate = new AndGate(engine.canvas.width / 2, 50);
+  engine.objects.push(andGate);
+  engine.draw();
+})
+
+document.getElementById("create-or").addEventListener("click", () => {
+  const orGate = new OrGate(engine.canvas.width / 2, 50);
+  engine.objects.push(orGate);
+  engine.draw();
+})
+
+document.getElementById("create-xor").addEventListener("click", () => {
+  const xorGate = new XorGate(engine.canvas.width / 2, 50);
+  engine.objects.push(xorGate);
+  engine.draw();
+})
+
+document.getElementById("create-not").addEventListener("click", () => {
+  const notGate = new NotGate(engine.canvas.width / 2, 50);
+  engine.objects.push(notGate);
+  engine.draw();
+})
+
+
 
 export default engine;
