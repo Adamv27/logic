@@ -1,4 +1,5 @@
 import AndGate from "./andGate.js";
+import Output from "./output.js";
 import Toggle from "./toggle.js";
 import { eventPosToCanvas } from "./util.js";
 
@@ -16,7 +17,9 @@ class Engine {
     
     const and = new AndGate();
     this.objects.push(and);
-
+    
+    const output = new Output();
+    this.objects.push(output);
 
     this.draw();
   }

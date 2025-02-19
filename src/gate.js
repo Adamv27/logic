@@ -19,15 +19,20 @@ export default class Gate extends Draggable {
     this.name = "GATE";
     
     this.inputs = [];
-    let input;
+    this.outputs = [];
+
+    let input, output;
     for (let i = 0; i < numInputs; i++) {
       input = new Connector(this.x, this.y); 
       this.inputs.push(input);
     }
+    
+    for (let i = 0; i < numOutputs; i++) {
+      output = new Connector(this.x, this.y);
+      this.outputs.push(output);
+    }
 
     this.calculateConnectorSpacing();
-
-    this.outputs = [];
   }
 
   propagateSignal() {
@@ -36,13 +41,18 @@ export default class Gate extends Draggable {
 
   calculateConnectorSpacing() {
     let offsetY = this.spacingPerConnector + Connector.RADIUS;   
-    this.inputs.forEach(input => {
+    for (const input of this.inputs) {
       input.x = this.x;
       input.y = this.y + offsetY;
       
       offsetY += this.spacingPerConnector;
       offsetY += Connector.RADIUS * 2;
-    })
+    }
+
+    for (const output of this.outputs) {
+      output.x = this.x + this.width;
+      output.y = this.y + (this.height / 2);
+    }
   }
 
   dragTo(x, y) {
@@ -51,18 +61,15 @@ export default class Gate extends Draggable {
   }
 
   handleEvent(event, x, y) {
-    let allowDraggingCircuit = true;
-
-    this.inputs.forEach(input => {
-      const wireDragging = input.handleEvent(event, x, y);
-      if (wireDragging) {
-        allowDraggingCircuit = false;
-      }
-    });
-
-    if (allowDraggingCircuit) {
-      super.handleEvent(event, x, y);
+    for (const input of this.inputs) {
+      if (input.handleEvent(event, x, y)) return;
     }
+
+    for (const output of this.outputs) {
+      if (output.handleEvent(event, x, y)) return;
+    }
+
+    super.handleEvent(event, x, y);
   }
 
   getConnectorOnPoint(x, y) {

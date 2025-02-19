@@ -8,9 +8,10 @@ export default class AndGate extends Gate {
   }
 
   propagateSignal() {
-    const input0 = this.inputs[0];
-    const input1 = this.inputs[1];
-    
-    console.log(`OUTPUT: ${input0.value && input1.value}`);
+    const connector0 = this.inputs[0];
+    const connector1 = this.inputs[1];
+
+    const output = this.outputs[0];
+    output.propagateSignal(connector0.value && connector1.value);
   }
 }
