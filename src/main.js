@@ -1,8 +1,10 @@
 import AndGate from "./andGate.js";
+import NotGate from "./notGate.js";
 import OrGate from "./orGate.js";
 import Output from "./output.js";
 import Toggle from "./toggle.js";
 import { eventPosToCanvas } from "./util.js";
+import XorGate from "./xorGate.js";
 
 class Engine {
   constructor() {
@@ -23,9 +25,16 @@ class Engine {
 
     const or = new OrGate();
     this.objects.push(or);
+
+    const not = new NotGate(); 
+    this.objects.push(not);
+
+    const xor = new XorGate();
+    this.objects.push(xor);
     
     const output = new Output();
     this.objects.push(output);
+    
 
     this.draw();
   }
