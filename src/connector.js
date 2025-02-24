@@ -5,24 +5,25 @@ import engine from "./main.js";
 export default class Connector extends Draggable {
   static RADIUS = 8;
 
-  constructor(x, y) {
+  constructor(x, y, attachedCircuit) {
     super(x, y);
-
-    this.wire = new Wire(this.x, this.y, this.x, this.y);
-
-    this.connectorConnectedTo;
-    this.circuitConnectedTo;
+    this.attachedCircuit = attachedCircuit;
+    
+    this.wires = [];
+    this.tempWire;
+  
+    this.connections = [];
     this.value = false;
   }
 
   propagateSignal(signal) {
     this.value = signal;
-    if (this.connectorConnectedTo) {
-      this.connectorConnectedTo.value = signal;
+    for (let connection of this.connections) {
+      connection.propagateSignal(signal);
     }
 
-    if (this.circuitConnectedTo) {
-      this.circuitConnectedTo.propagateSignal();
+    if (this.attachedCircuit) {
+      this.attachedCircuit.propagateSignal();
     }
   } 
  
@@ -43,28 +44,33 @@ export default class Connector extends Draggable {
   }
 
   attemptConnection(x, y) {
-    let targetedConnector, targetedObject;
+    let targetedConnector;
     for (const object of engine.objects) {
       targetedConnector = object.getConnectorOnPoint(x, y);
-      targetedObject = object;
 
       if (targetedConnector) {
-        this.connectorConnectedTo = targetedConnector;
-        this.circuitConnectedTo = targetedObject;
-        this.wire = new Wire(this.x, this.y, targetedConnector.x, targetedConnector.y);
+        this.connections.push(targetedConnector);
+        const wire = new Wire(this.x, this.y, targetedConnector.x, targetedConnector.y);
+        this.wires.push(wire);
+        this.tempWire = null;
         return;
       }
     }
-    
-    this.wire = new Wire(this.x, this.y, this.x, this.y);
+
+    this.tempWire = null;
   }
 
   dragTo(x, y) {
-    this.wire = new Wire(this.x, this.y, x, y);
+    this.tempWire = new Wire(this.x, this.y, x, y);
   }
 
   draw(ctx) {
-    this.wire.draw(ctx, this.value);
+    for (let wire of this.wires) {
+      wire.draw(ctx, this.value);
+    }
+
+    if (this.tempWire) this.tempWire.draw(ctx, this.value);
+
     const color = '#000';
     ctx.lineWidth = 2;
     ctx.strokeStyle = color;

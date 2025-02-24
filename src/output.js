@@ -2,11 +2,11 @@ import Draggable from "./draggable.js";
 import Connector from "./connector.js";
 
 export default class Output extends Draggable {
-  constructor() {
-    super(400, 200);
+  constructor(x, y) {
+    super(x, y);
 
     this.radius = 20;
-    this.connector = new Connector(this.x - this.radius - 15, this.y);
+    this.connector = new Connector(this.x - this.radius - 15, this.y, this);
     this.connector.circuitConnectedTo = this;
     
     this.value = false;

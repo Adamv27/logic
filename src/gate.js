@@ -23,7 +23,7 @@ export default class Gate extends Draggable {
 
     let input, output;
     for (let i = 0; i < numInputs; i++) {
-      input = new Connector(this.x, this.y); 
+      input = new Connector(this.x, this.y, this); 
       this.inputs.push(input);
     }
     
