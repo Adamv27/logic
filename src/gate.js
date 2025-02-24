@@ -2,9 +2,9 @@ import Connector from "./connector.js";
 import Draggable from "./draggable.js";
 
 export default class Gate extends Draggable {
-  constructor(x, y, width, numInputs, numOutputs) {
+  constructor(x, y, numInputs, numOutputs) {
     super(x, y);
-    this.width = width;
+    this.width = 75;
 
     this.numInputs = numInputs;
     this.numOutputs = numOutputs;
@@ -15,7 +15,7 @@ export default class Gate extends Draggable {
     const heightOfConnectors = maxConnectorsOnSide * 2 * Connector.RADIUS;
 
     this.height = heightOfConnectors + this.spacingPerConnector * (maxConnectorsOnSide + 1); 
-    this.color = "#0000FF";
+    this.color = "#44AAFF";
     this.name = "GATE";
     
     this.inputs = [];

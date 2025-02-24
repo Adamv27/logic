@@ -1,3 +1,4 @@
+import Gate from "./gate.js";
 import AndGate from "./andGate.js";
 import NotGate from "./notGate.js";
 import OrGate from "./orGate.js";
@@ -19,7 +20,7 @@ class Engine {
     this.objects.push(toggle);
     toggle = new Toggle(25, 150);
     this.objects.push(toggle);
-    
+
     const and = new AndGate(200, 75);
     this.objects.push(and);
 
@@ -32,9 +33,44 @@ class Engine {
     const xor = new XorGate(200, 350);
     this.objects.push(xor);
     
-    const output = new Output();
+    const output = new Output(400, 200);
     this.objects.push(output);
     
+    this.draw();
+  }
+
+  createCircuit() {
+    const name = document.getElementById("circuit-name").value;
+    
+    const inputs = this.objects.filter((object) => {
+      return object instanceof Toggle;
+    });
+
+    const outputs = this.objects.filter((object) => {
+      return object instanceof Output;
+    });
+ 
+    const numInputs = inputs.length;
+    const numOutputs = outputs.length; 
+    const gate = new Gate(200, 200, numInputs, numOutputs);
+
+    inputs.sort((a, b) => a.y - b.y);
+
+    console.log(inputs);
+    outputs.sort((a, b) => a.y - b.y);
+
+    for (let i = 0; i < numInputs; i++) {
+      gate.inputs[i].connections.push(inputs[i].connector);
+    }
+    
+    for (let i = 0; i < numOutputs; i++) {
+      outputs[i].connector.connections.push(gate.outputs[i]);
+    }
+
+    
+    gate.name = name;
+    this.objects = [];
+    this.objects.push(gate);
 
     this.draw();
   }
@@ -91,6 +127,15 @@ document.getElementById("create-not").addEventListener("click", () => {
   engine.draw();
 })
 
+document.getElementById("create-output").addEventListener("click", () => {
+  const output = new Output(engine.canvas.width * 0.75, 50);
+  engine.objects.push(output);
+  engine.draw();
+})
+
+document.getElementById("create-circuit").addEventListener("click", () => {
+  engine.createCircuit();
+})
 
 
 export default engine;

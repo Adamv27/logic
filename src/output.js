@@ -7,8 +7,6 @@ export default class Output extends Draggable {
 
     this.radius = 20;
     this.connector = new Connector(this.x - this.radius - 15, this.y, this);
-    this.connector.circuitConnectedTo = this;
-    
     this.value = false;
   }      
 

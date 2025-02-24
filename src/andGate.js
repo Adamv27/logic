@@ -2,7 +2,7 @@ import Gate from "./gate.js";
 
 export default class AndGate extends Gate {
   constructor(x, y) {
-    super(x, y, 75, 2, 1);
+    super(x, y, 2, 1);
     this.color = "#B2FBA5";
     this.name = "AND";
   }
